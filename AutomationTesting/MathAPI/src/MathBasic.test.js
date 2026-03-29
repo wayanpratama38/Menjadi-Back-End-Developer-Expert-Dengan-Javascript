@@ -37,3 +37,25 @@ describe('A add function',() => {
       expect(MathBasic.add(3, 7)).toEqual(10);
     });
 })
+
+
+describe('A subtract function', () => {
+    it('should throw error when not given 2 paramaters', () => {
+        expect(()=> MathBasic.subtract()).toThrow();
+        expect(()=> MathBasic.subtract(1)).toThrow();
+        expect(()=> MathBasic.subtract(1,2,3)).toThrow();
+        expect(()=> MathBasic.subtract(1,2,3,4)).toThrow();
+    })
+
+    it('should throw error when given non-number parameters', () => {
+        expect(() => MathBasic.subtract('1','1')).toThrow();
+        expect(() => MathBasic.subtract(true,{})).toThrow();
+        expect(() => MathBasic.subtract(false,null)).toThrow();
+    })
+
+    it('should return a-b when given two number parameters', () => {
+        expect(MathBasic.subtract(1,2)).toEqual(-1);
+        expect(MathBasic.subtract(2,2)).toEqual(0);
+        expect(MathBasic.subtract(3,2)).toEqual(1);
+    })
+})
