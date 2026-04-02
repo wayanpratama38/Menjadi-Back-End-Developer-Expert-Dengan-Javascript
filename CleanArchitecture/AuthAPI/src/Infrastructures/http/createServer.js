@@ -1,5 +1,7 @@
 import express from 'express';
 import users from '../../Interfaces/http/api/users/index.js';
+import DomainErrorTranslator from '../../Commons/exceptions/DomainErrorTranslator.js';
+import ClientError from '../../Commons/exceptions/ClientError.js';
 
 const createServer = async (container) => {
     const app = express();
@@ -9,12 +11,28 @@ const createServer = async (container) => {
     app.use('/users',users(container));
 
     app.use((req, res) => {
-    res.status(404).json({
+    return res.status(404).json({
             status: 'fail',
             message: 'resource not found',
         });
     });
 
+
+    app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+        const translatedError = DomainErrorTranslator.translate(err);
+    
+        if (translatedError instanceof ClientError) {
+            return res.status(translatedError.statusCode).json({
+                status: 'fail',
+                message: translatedError.message,
+            });
+        }
+    
+        res.status(500).json({
+            status: 'error',
+            message: 'terjadi kegagalan pada server kami',
+        });
+    });
     return app;
 }
 

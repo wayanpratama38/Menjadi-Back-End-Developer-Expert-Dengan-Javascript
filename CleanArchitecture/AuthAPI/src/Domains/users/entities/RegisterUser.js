@@ -19,7 +19,7 @@ class RegisterUser {
 
         // Check if the properties data type correct
         if (typeof username !== 'string' || typeof password !== 'string' || typeof fullname !== 'string') {
-            throw new Error("REGISTER_USER.NOT_MEET_DATA_TYPE_SPESIFICATION")
+            throw new Error("REGISTER_USER.NOT_MEET_DATA_TYPE_SPECIFICATION")
         }
 
         // Check username length

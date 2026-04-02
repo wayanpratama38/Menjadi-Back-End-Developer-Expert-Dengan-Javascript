@@ -26,7 +26,7 @@ describe("A RegisterUser entities", ()=> {
         }
 
         // action & assert
-        expect(()=> new RegisterUser(payload)).toThrow("REGISTER_USER.NOT_MEET_DATA_TYPE_SPESIFICATION")
+        expect(()=> new RegisterUser(payload)).toThrow("REGISTER_USER.NOT_MEET_DATA_TYPE_SPECIFICATION")
     })
     
     // 3. Username with more than 50 character 
