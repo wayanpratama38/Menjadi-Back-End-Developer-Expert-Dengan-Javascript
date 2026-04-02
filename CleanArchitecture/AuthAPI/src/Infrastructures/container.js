@@ -9,7 +9,7 @@ import bcrypt from 'bcrypt';
 import pool from './database/postgres/pool.js';
 
 // Service
-import UserRepository from './Domains/users/UserRepository.js';
+import UserRepository from '../Domains/users/UserRepository.js';
 import UserRepositoryPostgres from './repository/UserRepositoryPostgres.js';
 import BcryptPasswordHash from './security/BcryptPasswordHash.js';
 
