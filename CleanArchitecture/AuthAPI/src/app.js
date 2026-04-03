@@ -1,14 +1,15 @@
-import express from 'express';
+import 'dotenv/config';
+import createServer from './Infrastructures/http/createServer.js';
+import config from './Commons/config.js';
+import container from './Infrastructures/container.js';
 
+const start = async()=> {
+    const app = await createServer(container);
+    const {host, port} = config.app;
 
-const app = new express();
+    app.listen(port,host,()=>{
+        console.log(`server start at http://${host}:${port}`);
+    })
+}
 
-app.get('/',(req,res)=>{
-    res.json({success: true})
-})
-
-
-app.listen(3000,"localhost",()=>{
-    console.log(`Server running at http://localhost:3000`)
-})
-
+start();
