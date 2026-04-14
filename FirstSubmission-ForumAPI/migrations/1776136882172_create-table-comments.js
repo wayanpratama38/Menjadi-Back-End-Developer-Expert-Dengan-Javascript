@@ -1,33 +1,36 @@
+/* eslint-disable camelcase */
 /**
  * @param pgm {import('node-pg-migrate').MigrationBuilder}
  * @param run {() => void | undefined}
  * @returns {Promise<void> | void}
  */
 export const up = (pgm) => {
-  pgm.createTable('threads', {
+  pgm.createTable('comments', {
     id : {
       primaryKey : true,
-      notNull : true,
-      type : 'VARCHAR'
+      type : 'VARCHAR(50)'
     },
-    title : {
+    thread_id : {
+      references : 'threads',
+      onDelete : 'CASCADE',
       notNull : true,
-      type : 'TEXT'
-    },
-    body : {
-      notNull : true,
-      type : 'TEXT'
+      type : 'VARCHAR(50)'
     },
     owner : {
-      type : 'VARCHAR(50)',
-      notNull :true,
       references : 'users',
-      onDelete : 'CASCADE'
+      onDelete : 'CASCADE',
+      notNull : true,
+      type : 'VARCHAR(50)'
     },
     date : {
       type : 'TEXT',
       notNull : true,
       default  :pgm.func('current_timestamp')
+    },
+    is_delete : {
+      type :'BOOLEAN',
+      notNull : true,
+      default : false
     }
   });
 };
@@ -38,5 +41,5 @@ export const up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 export const down = (pgm) => {
-  pgm.dropTable('threads');
+  pgm.dropTable('comments');
 };
