@@ -13,8 +13,17 @@ const ThreadsTableTestHelper = {
     return result.rows;
   },
 
+  async addThread({ id, owner, title='thread', body='body' }){
+    const query = {
+      text : 'INSERT INTO threads(id, owner, title, body) VALUES($1,$2,$3,$4)',
+      values : [id, owner, title, body]
+    };
+
+    await pool.query(query);
+  },
+
   async cleanTable() {
-    await pool.query('DELETE FROM threads WHERE 1=1');
+    await pool.query('TRUNCATE TABLE threads CASCADE');
   },
 };
 
