@@ -15,6 +15,10 @@ class CommentRepository{
   async getCommentById(commentId){
     throw new Error('COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   }
+
+  async getCommentByThreadId(threadId){
+    throw new Error('COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED');
+  }
 }
 
 export default CommentRepository;
