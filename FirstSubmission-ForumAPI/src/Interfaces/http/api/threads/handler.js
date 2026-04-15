@@ -1,4 +1,5 @@
 import AddThreadUseCase from '../../../../Applications/use_case/AddThreadUseCase.js';
+import GetDetailThreadUseCase from '../../../../Applications/use_case/GetDetailThreadUseCase.js';
 
 
 class ThreadsHandler {
@@ -6,6 +7,7 @@ class ThreadsHandler {
     this._container = container;
 
     this.postThreadHandler = this.postThreadHandler.bind(this);
+    this.getDetailThreadHandler = this.getDetailThreadHandler.bind(this);
   }
 
   async postThreadHandler(req, res, next){
@@ -21,6 +23,25 @@ class ThreadsHandler {
         status : 'success',
         data : {
           addedThread
+        }
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getDetailThreadHandler(req, res, next){
+    try {
+      const { threadId } = req.params;
+      const getDetailThreadUseCase = this._container.getInstance(GetDetailThreadUseCase.name);
+      const thread = await getDetailThreadUseCase.execute({
+        threadId
+      });
+
+      res.status(200).json({
+        status : 'success',
+        data : {
+          thread
         }
       });
     } catch (error) {
