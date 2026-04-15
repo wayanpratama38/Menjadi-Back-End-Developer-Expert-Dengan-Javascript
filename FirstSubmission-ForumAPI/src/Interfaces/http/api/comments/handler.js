@@ -1,10 +1,12 @@
 import AddCommentUseCase from '../../../../Applications/use_case/AddCommentUseCase.js';
+import DeleteCommentUseCase from '../../../../Applications/use_case/DeleteCommentUseCase.js';
 
 class CommentsHandler {
   constructor(container) {
     this._container = container;
 
     this.postCommentHandler = this.postCommentHandler.bind(this);
+    this.deleteCommentHandler = this.deleteCommentHandler.bind(this);
   }
 
   async postCommentHandler(req, res, next){
@@ -24,6 +26,24 @@ class CommentsHandler {
         data : {
           addedComment
         }
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deleteCommentHandler(req, res, next){
+    try {
+      const { threadId, commentId } = req.params;
+      const { id : owner }  = req.user;
+      // console.log(threadId, commentId, owner);
+
+      const deleteCommentuseCase = this._container.getInstance(DeleteCommentUseCase.name);
+      // console.log(deleteCommentuseCase);
+      await deleteCommentuseCase.execute({ threadId, commentId, owner });
+
+      res.status(200).json({
+        status : 'success'
       });
     } catch (error) {
       next(error);

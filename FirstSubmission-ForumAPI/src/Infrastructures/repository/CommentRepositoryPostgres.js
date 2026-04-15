@@ -25,11 +25,15 @@ class CommentRepositoryPostgres extends CommentRepository {
 
   async verifyCommentOwnership(commentId, owner){
     const query = {
-      text : 'SELECT * FROM comments WHERE id = $1 AND owner = $2',
-      values : [commentId, owner]
+      text : 'SELECT * FROM comments WHERE id = $1',
+      values : [commentId]
     };
 
     const result = await this._pool.query(query);
+
+    if (result.rows[0].owner !== owner){
+      throw new Error('COMMENT_REPOSITORY_POSTGRES.UNAUTHORIZED');
+    }
 
     if (!result.rowCount){
       throw new Error('COMMENT_REPOSITORY_POSTGRES.NOT_FOUND');

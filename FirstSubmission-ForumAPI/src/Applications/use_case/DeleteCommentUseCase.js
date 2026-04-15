@@ -6,7 +6,6 @@ class DeleteCommentUseCase {
 
   async execute(useCasePayload){
     const { threadId, commentId, owner } = useCasePayload;
-
     // Check if the thread is avail or not
     await this._threadRepository.verifyThreadAvailability(threadId);
 

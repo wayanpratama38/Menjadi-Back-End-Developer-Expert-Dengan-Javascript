@@ -1,3 +1,4 @@
+import AuthorizationError from './AuthorizationError.js';
 import InvariantError from './InvariantError.js';
 import NotFoundError from './NotFoundError.js';
 
@@ -24,6 +25,7 @@ DomainErrorTranslator._directories = {
   'NEW_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION' : new InvariantError('idak dapat membuat thread baru karena tipe data tidak sesuai'),
   'THREAD_REPOSITORY_POSTGRES.NOT_FOUND' : new NotFoundError('thread tidak dapat ditemukan'),
   'COMMENT_REPOSITORY_POSTGRES.NOT_FOUND' : new NotFoundError('komen tidak ditemukan'),
+  'COMMENT_REPOSITORY_POSTGRES.UNAUTHORIZED' : new AuthorizationError('tidak berhak untuk melakukan tindakan'),
 };
 
 export default DomainErrorTranslator;
