@@ -1,3 +1,4 @@
+import { expect } from 'vitest';
 import CommentsTableTestHelper from '../../../../tests/CommentsTableTestHelper.js';
 import ThreadsTableTestHelper from '../../../../tests/ThreadsTableTestHelper.js';
 import UsersTableTestHelper from '../../../../tests/UsersTableTestHelper.js';
@@ -42,6 +43,26 @@ describe('CommentRepositoryPostgres', ()=> {
         content: 'sebuah komentar',
         owner: userId,
       }));
+    });
+  });
+
+  describe('deleteComment functionallity', ()=> {
+    it('should soft delete comment in database', async ()=> {
+      const userId = 'user-123';
+      const threadId = 'thread-123';
+      const commentId = 'comment-123';
+      await UsersTableTestHelper.addUser({ id : userId });
+      await ThreadsTableTestHelper.addThread({ id: threadId, owner: userId });
+
+      await CommentsTableTestHelper.addComment({ id: commentId, threadId: threadId, owner: userId });
+
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      await commentRepositoryPostgres.deleteCommentById(commentId);
+
+      const comments = await CommentsTableTestHelper.findCommentsById(commentId);
+      expect(comments).toHaveLength(1);
+      expect(comments[0].is_delete).toEqual(true);
     });
   });
 });
