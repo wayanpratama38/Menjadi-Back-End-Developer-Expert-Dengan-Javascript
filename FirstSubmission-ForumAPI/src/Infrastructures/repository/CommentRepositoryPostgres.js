@@ -31,12 +31,12 @@ class CommentRepositoryPostgres extends CommentRepository {
 
     const result = await this._pool.query(query);
 
-    if (result.rows[0].owner !== owner){
-      throw new Error('COMMENT_REPOSITORY_POSTGRES.UNAUTHORIZED');
-    }
-
     if (!result.rowCount){
       throw new Error('COMMENT_REPOSITORY_POSTGRES.NOT_FOUND');
+    }
+
+    if (result.rows[0].owner !== owner){
+      throw new Error('COMMENT_REPOSITORY_POSTGRES.UNAUTHORIZED');
     }
 
     return result.rowCount > 0 ? true : false;

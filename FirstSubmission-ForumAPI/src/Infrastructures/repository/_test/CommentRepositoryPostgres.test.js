@@ -65,4 +65,51 @@ describe('CommentRepositoryPostgres', ()=> {
       expect(comments[0].is_delete).toEqual(true);
     });
   });
+
+  describe('getCommentById function', () => {
+    it('should throw NotFoundError when comment not found', async () => {
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+      await expect(commentRepositoryPostgres.getCommentById('comment-999'))
+        .rejects.toThrowError('COMMENT_REPOSITORY_POSTGRES.NOT_FOUND');
+    });
+
+    it('should return comment detail correctly', async () => {
+      await UsersTableTestHelper.addUser({ id: 'user-123' });
+      await ThreadsTableTestHelper.addThread({ id: 'thread-123', owner: 'user-123' });
+      await CommentsTableTestHelper.addComment({ id: 'comment-123', threadId: 'thread-123', owner: 'user-123' });
+
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+      const comment = await commentRepositoryPostgres.getCommentById('comment-123');
+
+      expect(comment.id).toEqual('comment-123');
+      expect(comment.content).toBeDefined();
+    });
+  });
+
+  describe('verifyCommentOwnership function', () => {
+    it('should throw UnauthorizedError when owner not match', async () => {
+      await UsersTableTestHelper.addUser({ id: 'user-1' });
+      await UsersTableTestHelper.addUser({ id: 'user-2', username: 'other' });
+      await ThreadsTableTestHelper.addThread({ id: 'thread-1', owner: 'user-1' });
+      await CommentsTableTestHelper.addComment({ id: 'comment-1', threadId: 'thread-1', owner: 'user-1' });
+
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+      await expect(commentRepositoryPostgres.verifyCommentOwnership('comment-1', 'user-2'))
+        .rejects.toThrowError('COMMENT_REPOSITORY_POSTGRES.UNAUTHORIZED');
+    });
+  });
+
+  describe('getCommentByThreadId function', () => {
+    it('should return comments by thread id correctly', async () => {
+      await UsersTableTestHelper.addUser({ id: 'user-1', username: 'johndoe' });
+      await ThreadsTableTestHelper.addThread({ id: 'thread-1', owner: 'user-1' });
+      await CommentsTableTestHelper.addComment({ id: 'comment-1', threadId: 'thread-1', owner: 'user-1' });
+
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+      const comments = await commentRepositoryPostgres.getCommentByThreadId('thread-1');
+
+      expect(comments).toHaveLength(1);
+      expect(comments[0].username).toEqual('johndoe');
+    });
+  });
 });
