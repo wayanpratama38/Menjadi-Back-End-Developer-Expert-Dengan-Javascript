@@ -1,7 +1,8 @@
 class GetDetailThreadUseCase{
-  constructor({ threadRepository, commentRepository }){
+  constructor({ threadRepository, commentRepository, replyRepository }){
     this._threadRepository = threadRepository;
     this._commentRepository = commentRepository;
+    this._replyRepository = replyRepository;
   }
 
   async execute(useCasePayload){
@@ -16,6 +17,9 @@ class GetDetailThreadUseCase{
     // Get all the comment in the thread
     const comments = await this._commentRepository.getCommentByThreadId(threadId);
 
+    // Get all replies in the comment
+    const replies = await this._replyRepository.getReplyByThreadId(threadId);
+
     // returning the thread information
     return {
       id : thread.id,
@@ -28,6 +32,14 @@ class GetDetailThreadUseCase{
         username : comment.username,
         date : comment.date,
         content : comment.is_delete ? '**komentar telah dihapus**' : comment.content,
+        replies : replies
+          .filter((reply) => reply.comment_id == comment.id)
+          .map((reply)=>({
+            id : reply.id,
+            content : reply.is_delete ? '**balasan telah dihapus**' : reply.content,
+            date : reply.date,
+            username : reply.username
+          }))
       }))
     };
 
