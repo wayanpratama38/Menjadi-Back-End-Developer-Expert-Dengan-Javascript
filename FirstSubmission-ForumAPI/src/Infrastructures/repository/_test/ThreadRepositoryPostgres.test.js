@@ -7,8 +7,8 @@ import UsersTableTestHelper from '../../../../tests/UsersTableTestHelper.js';
 
 describe('ThreadRepositoryPostgres', ()=> {
   afterEach(async ()=> {
-    await UsersTableTestHelper.cleanTable();
     await ThreadsTableTestHelper.cleanTable();
+    await UsersTableTestHelper.cleanTable();
   });
 
   afterAll(async ()=> {

@@ -1,10 +1,12 @@
 import AddReplyUseCase from '../../../../Applications/use_case/AddReplyUseCase.js';
+import DeleteReplyUseCase from '../../../../Applications/use_case/DeleteReplyUseCase.js';
 
 class ReplyHandler {
   constructor(container) {
     this._container = container;
 
     this.postReplyHandler = this.postReplyHandler.bind(this);
+    this.deleteReplyHandler = this.deleteReplyHandler.bind(this);
   }
 
   async postReplyHandler(req, res, next){
@@ -30,23 +32,21 @@ class ReplyHandler {
     }
   }
 
-  // async deleteCommentHandler(req, res, next){
-  //   try {
-  //     const { threadId, commentId } = req.params;
-  //     const { id : owner }  = req.user;
-  //     // console.log(threadId, commentId, owner);
+  async deleteReplyHandler(req, res, next){
+    try {
+      const { threadId, commentId, replyId } = req.params;
+      const { id : owner }  = req.user;
 
-  //     const deleteCommentuseCase = this._container.getInstance(DeleteCommentUseCase.name);
-  //     // console.log(deleteCommentuseCase);
-  //     await deleteCommentuseCase.execute({ threadId, commentId, owner });
+      const deleteReplyUseCase = this._container.getInstance(DeleteReplyUseCase.name);
+      await deleteReplyUseCase.execute({ threadId, replyId, commentId, owner });
 
-  //     res.status(200).json({
-  //       status : 'success'
-  //     });
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // }
+      res.status(200).json({
+        status : 'success'
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default ReplyHandler;

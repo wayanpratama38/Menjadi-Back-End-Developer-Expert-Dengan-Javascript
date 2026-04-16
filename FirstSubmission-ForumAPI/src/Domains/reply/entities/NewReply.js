@@ -2,12 +2,11 @@ class NewReply {
   constructor(payload) {
     this._verifyPayload(payload);
 
-    const { content, threadId, commentId, owner } = payload;
 
-    this.content = content;
-    this.threadId = threadId;
-    this.commentId = commentId;
-    this.owner = owner;
+    this.content = payload.content;
+    this.threadId = payload.threadId;
+    this.commentId = payload.commentId;
+    this.owner = payload.owner;
   }
 
   _verifyPayload({ content, threadId, commentId, owner }) {

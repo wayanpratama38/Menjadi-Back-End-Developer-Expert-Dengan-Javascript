@@ -26,8 +26,8 @@ DomainErrorTranslator._directories = {
   'THREAD_REPOSITORY_POSTGRES.NOT_FOUND' : new NotFoundError('thread tidak dapat ditemukan'),
   'COMMENT_REPOSITORY_POSTGRES.NOT_FOUND' : new NotFoundError('komen tidak ditemukan'),
   'COMMENT_REPOSITORY_POSTGRES.UNAUTHORIZED' : new AuthorizationError('tidak berhak untuk melakukan tindakan'),
-  'ADDED_REPLY.NOT_MEET_DATA_TYPE_SPECIFICATION' : new InvariantError('tidak dapat membalas komen karena tipe data tidak sesuai'),
-  'ADDED_REPLY.NOT_CONTAIN_NEEDED_PROPERTY' : new InvariantError('tidak dapat membuat komen baru karena properti yang dibutuhkan tidak ada'),
+  'NEW_REPLY.NOT_MEET_DATA_TYPE_SPECIFICATION' : new InvariantError('tidak dapat membalas komen karena tipe data tidak sesuai'),
+  'NEW_REPLY.NOT_CONTAIN_NEEDED_PROPERTY' : new InvariantError('tidak dapat membuat komen baru karena properti yang dibutuhkan tidak ada'),
   'REPLY_REPOSITORY_POSTGRES.UNAUTHORIZED' : new AuthorizationError('tidak berhak untuk melakukan tindakan'),
   'REPLY_REPOSITORY_POSTGRES.NOT_FOUND' : new NotFoundError('reply tidak dapat ditemukan')
 

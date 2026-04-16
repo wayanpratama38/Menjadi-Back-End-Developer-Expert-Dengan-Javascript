@@ -2,11 +2,9 @@ class AddedReply {
   constructor(payload) {
     this._verifyPayload(payload);
 
-    const { id, content, owner } = payload;
-
-    this.id = id;
-    this.content = content;
-    this.owner = owner;
+    this.id = payload.id;
+    this.content = payload.content;
+    this.owner = payload.owner;
   }
 
   _verifyPayload({ id, content, owner }) {
