@@ -1,4 +1,4 @@
-import { expect } from 'vitest';
+import { describe, expect } from 'vitest';
 import CommentsTableTestHelper from '../../../../tests/CommentsTableTestHelper.js';
 import ThreadsTableTestHelper from '../../../../tests/ThreadsTableTestHelper.js';
 import UsersTableTestHelper from '../../../../tests/UsersTableTestHelper.js';
@@ -96,6 +96,18 @@ describe('CommentRepositoryPostgres', ()=> {
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
       await expect(commentRepositoryPostgres.verifyCommentOwnership('comment-1', 'user-2'))
         .rejects.toThrowError('COMMENT_REPOSITORY_POSTGRES.UNAUTHORIZED');
+    });
+  });
+
+  describe('veriyCommentAvailability function', () => {
+    it('should throw NotFoundError when comment not founded', async () => {
+      await UsersTableTestHelper.addUser({ id: 'user-1' });
+      await ThreadsTableTestHelper.addThread({ id: 'thread-1', owner: 'user-1' });
+      await CommentsTableTestHelper.addComment({ id: 'comment-2', threadId: 'thread-1', owner: 'user-1' });
+
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+      await expect(commentRepositoryPostgres.verifyCommentAvailability('comment-1'))
+        .rejects.toThrowError('COMMENT_REPOSITORY_POSTGRES.NOT_FOUND');
     });
   });
 
