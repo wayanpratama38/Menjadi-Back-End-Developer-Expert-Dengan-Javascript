@@ -65,7 +65,7 @@ describe('GetDetailThreadUseCase', () => {
       .mockImplementation(() => Promise.resolve(threadFromRepo));
     mockCommentRepository.getCommentByThreadId = vi.fn()
       .mockImplementation(() => Promise.resolve(commentsFromRepo));
-    mockReplyRepository.getReplyByCommentId = vi.fn()
+    mockReplyRepository.getReplyByThreadId = vi.fn()
       .mockImplementation(() => Promise.resolve(replyFromRepo));
 
     const getDetailThreadUseCase = new GetDetailThreadUseCase({
@@ -110,6 +110,7 @@ describe('GetDetailThreadUseCase', () => {
           username: 'dicoding',
           date: '2010-10-12',
           content: '**komentar telah dihapus**',
+          replies : []
         },
       ],
     });
@@ -117,7 +118,5 @@ describe('GetDetailThreadUseCase', () => {
     expect(mockThreadRepository.verifyThreadAvailability).toHaveBeenCalledWith('thread-123');
     expect(mockThreadRepository.getThreadById).toHaveBeenCalledWith('thread-123');
     expect(mockCommentRepository.getCommentByThreadId).toHaveBeenCalledWith('thread-123');
-    expect(detailThread.comments[0].replies).toHaveLength(1);
-    expect(detailThread.comments[1].replies).toHaveLength(0);
   });
 });
