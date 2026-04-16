@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import InvariantError from '../../../Commons/exceptions/InvariantError.js';
 import JwtTokenManager from '../JwtTokenManager.js';
 import config from '../../../Commons/config.js';
+import AuthenticationError from '../../../Commons/exceptions/AuthenticationError.js';
 
 describe('JwtTokenManager', () => {
   describe('createAccessToken function', () => {
@@ -55,6 +56,12 @@ describe('JwtTokenManager', () => {
       await expect(jwtTokenManager.verifyRefreshToken(accessToken))
         .rejects
         .toThrow(InvariantError);
+    });
+
+    it('should throw AuthenticationError when access token is invalid', async () => {
+      const jwtTokenManager = new JwtTokenManager(jwt);
+      await expect(jwtTokenManager.verifyAccessToken('invalid_token'))
+        .rejects.toThrow(AuthenticationError);
     });
 
     it('should not throw InvariantError when refresh token verified', async () => {

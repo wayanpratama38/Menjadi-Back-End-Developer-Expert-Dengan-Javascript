@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-/* eslint-disable no-undef */
+import request from 'supertest';
 
 const ServerTestHelper = {
   async getAccessTokenWithUser({ server, username = 'wayan' }) {

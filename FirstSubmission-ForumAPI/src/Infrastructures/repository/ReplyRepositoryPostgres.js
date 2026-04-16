@@ -10,7 +10,6 @@ class ReplyRepositoryPostgres extends ReplyRepository {
   async addReply(newReply){
     const { content, commentId, owner } = newReply;
     const id = `reply-${this._idGenerator()}`;
-
     const query = {
       text : 'INSERT INTO replies(id, content, owner, comment_id) VALUES($1,$2,$3,$4) returning id, content, owner',
       values : [id, content, owner, commentId]

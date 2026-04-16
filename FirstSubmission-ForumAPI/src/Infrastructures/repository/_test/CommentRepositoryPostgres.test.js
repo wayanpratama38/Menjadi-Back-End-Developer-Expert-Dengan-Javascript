@@ -64,6 +64,11 @@ describe('CommentRepositoryPostgres', ()=> {
       expect(comments).toHaveLength(1);
       expect(comments[0].is_delete).toEqual(true);
     });
+    it('should throw Error when comment not found in deleteCommentById', async () => {
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+      await expect(commentRepositoryPostgres.deleteCommentById('comment-999'))
+        .rejects.toThrowError('COMMENT_REPOSITORY_POSTGRES.NOT_FOUND');
+    });
   });
 
   describe('getCommentById function', () => {
@@ -96,6 +101,12 @@ describe('CommentRepositoryPostgres', ()=> {
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
       await expect(commentRepositoryPostgres.verifyCommentOwnership('comment-1', 'user-2'))
         .rejects.toThrowError('COMMENT_REPOSITORY_POSTGRES.UNAUTHORIZED');
+    });
+
+    it('should throw Error when comment not found in verifyCommentOwnership', async () => {
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+      await expect(commentRepositoryPostgres.verifyCommentOwnership('comment-999', 'user-123'))
+        .rejects.toThrowError('COMMENT_REPOSITORY_POSTGRES.NOT_FOUND');
     });
   });
 

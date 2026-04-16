@@ -1,3 +1,5 @@
+import NewReply from '../../Domains/reply/entities/NewReply.js';
+
 class AddReplyUseCase {
   constructor({ threadRepository, commentRepository, replyRepository }){
     this._threadRepository = threadRepository;
@@ -6,7 +8,7 @@ class AddReplyUseCase {
   }
 
   async execute(useCasePayload){
-    const { threadId, commentId, owner, content } = useCasePayload;
+    const { threadId, commentId, owner, content } = new NewReply(useCasePayload);
 
     // Check thread availability
     await this._threadRepository.verifyThreadAvailability(threadId);
