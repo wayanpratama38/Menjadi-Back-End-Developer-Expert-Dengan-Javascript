@@ -32,6 +32,7 @@ class GetDetailThreadUseCase{
         username : comment.username,
         date : comment.date,
         content : comment.is_delete ? '**komentar telah dihapus**' : comment.content,
+        likeCount : comment.likeCount,
         replies : replies
           .filter((reply) => reply.comment_id == comment.id)
           .map((reply)=>({
@@ -40,6 +41,7 @@ class GetDetailThreadUseCase{
             date : reply.date,
             username : reply.username
           }))
+
       }))
     };
 

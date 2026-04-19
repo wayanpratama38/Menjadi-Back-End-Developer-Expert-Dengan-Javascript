@@ -25,6 +25,7 @@ describe('GetDetailThreadUseCase', () => {
         date: '2010-10-11',
         content: 'comment',
         is_delete: false,
+        likeCount: 2,
       },
       {
         id: 'comment-456',
@@ -32,6 +33,7 @@ describe('GetDetailThreadUseCase', () => {
         date: '2010-10-12',
         content: '**komentar telah dihapus**',
         is_delete: true,
+        likeCount: 0,
       },
     ];
 
@@ -90,6 +92,7 @@ describe('GetDetailThreadUseCase', () => {
           username: 'johndoe',
           date: '2010-10-11',
           content: 'comment',
+          likeCount: 2,
           replies : [
             {
               id: 'reply-123',
@@ -110,6 +113,7 @@ describe('GetDetailThreadUseCase', () => {
           username: 'dicoding',
           date: '2010-10-12',
           content: '**komentar telah dihapus**',
+          likeCount: 0,
           replies : []
         },
       ],
