@@ -35,10 +35,6 @@ class CommentRepository{
   async verifyLikeStatus(commentId, owner){
     throw new Error('COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   }
-
-  async getLikeCount(commentId){
-    throw new Error('COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED');
-  }
 }
 
 export default CommentRepository;

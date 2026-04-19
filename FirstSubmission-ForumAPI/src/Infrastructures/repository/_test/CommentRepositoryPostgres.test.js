@@ -192,22 +192,4 @@ describe('CommentRepositoryPostgres', ()=> {
       expect(status).toBe(false);
     });
   });
-
-  describe('getLikeCount function', () => {
-    it('should return correct like count', async () => {
-      await UsersTableTestHelper.addUser({ id: 'user-123', username: 'user1' });
-      await UsersTableTestHelper.addUser({ id: 'user-234', username: 'user2' });
-      await ThreadsTableTestHelper.addThread({ id: 'thread-123', owner: 'user-123' });
-      await CommentsTableTestHelper.addComment({ id: 'comment-123', threadId: 'thread-123', owner: 'user-123' });
-
-      await CommentLikesTableTestHelper.addLike({ id: 'like-123', commentId: 'comment-123', userId: 'user-123' });
-      await CommentLikesTableTestHelper.addLike({ id: 'like-234', commentId: 'comment-123', userId: 'user-234' });
-
-      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
-
-      const count = await commentRepositoryPostgres.getLikeCount('comment-123');
-
-      expect(count).toBe(2);
-    });
-  });
 });

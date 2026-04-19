@@ -77,10 +77,13 @@ class CommentRepositoryPostgres extends CommentRepository {
           users.username,
           comments.date,
           comments.content,
-          comments.is_delete
+          comments.is_delete,
+          CAST(COUNT(comment_likes.id) AS INTEGER) AS "likeCount"
         FROM comments
         INNER JOIN users ON comments.owner = users.id
+        LEFT JOIN comment_likes ON comments.id = comment_likes.comment_id
         WHERE comments.thread_id = $1
+        GROUP BY comments.id, users.username
         ORDER BY comments.date ASC
       `,
       values : [threadId]
@@ -134,16 +137,6 @@ class CommentRepositoryPostgres extends CommentRepository {
 
     const result = await this._pool.query(query);
     return result.rowCount > 0 ? true : false;
-  }
-
-  async getLikeCount(commentId){
-    const query = {
-      text : 'SELECT * FROM comment_likes WHERE comment_id = $1',
-      values : [commentId]
-    };
-
-    const result = await this._pool.query(query);
-    return result.rowCount;
   }
 }
 
