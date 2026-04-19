@@ -22,7 +22,7 @@ DomainErrorTranslator._directories = {
   'NEW_THREAD.NOT_CONTAIN_NEEDED_PROPERTY' : new InvariantError('tidak dapat membuat thread baru karena properti yang dibutuhkan tidak ada'),
   'NEW_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION' : new InvariantError('tidak dapat membuat thread baru karena tipe data tidak sesuai'),
   'NEW_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY' : new InvariantError('tidak dapat membuat thread baru karena properti yang dibutuhkan tidak ada'),
-  'NEW_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION' : new InvariantError('idak dapat membuat thread baru karena tipe data tidak sesuai'),
+  'NEW_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION' : new InvariantError('tidak dapat membuat thread baru karena tipe data tidak sesuai'),
   'THREAD_REPOSITORY_POSTGRES.NOT_FOUND' : new NotFoundError('thread tidak dapat ditemukan'),
   'COMMENT_REPOSITORY_POSTGRES.NOT_FOUND' : new NotFoundError('komen tidak ditemukan'),
   'COMMENT_REPOSITORY_POSTGRES.UNAUTHORIZED' : new AuthorizationError('tidak berhak untuk melakukan tindakan'),
